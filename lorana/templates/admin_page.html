@@ -1,0 +1,102 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4 text-center">Admin Control Panel</h2>
+
+    <ul class="nav nav-tabs mb-4" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="products-tab" data-bs-toggle="tab" data-bs-target="#products-sec" type="button" role="tab">
+                Products Management
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users-sec" type="button" role="tab">
+                Users Management
+            </button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="adminTabsContent">
+
+        <div class="tab-pane fade show active" id="products-sec" role="tabpanel">
+            <div class="card border-success">
+                <div class="card-header bg-success text-white d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0">Products List</h4>
+                    <a href="{{ url_for('products.add') }}" class="btn btn-light btn-sm">+ Add New Product</a>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr>
+                                    <td>{{ product.name }}</td>
+                                    <td>{{ product.price }}</td>
+                                    <td>{{ product.stock }}</td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+
+                                            <button class="btn btn-sm btn-outline-info">Edit</button>
+                                            <form action="{{url_for('products.delete',id=product.id)}}" method="post">
+                                                <button class="btn btn-sm btn-outline-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="text-end mt-3">
+                        <a href="{{ url_for('products.add') }}" class="btn btn-success">Add Another Product</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="users-sec" role="tabpanel">
+            <div class="card border-primary">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">User Management</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr><th>ID</th><th>Username</th><th>Role</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                 <tr>
+                                    <td>{{ user.id }}</td>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        <span class="badge {{ 'bg-danger' if user.is_admin else 'bg-secondary' }}">
+                                            {{ 'Admin' if user.is_admin else 'User' }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex gap-2">
+                                            <form action="{{url_for('admin.user_admin', user_id=user.id)}}" method="post">
+                                            <button class="btn btn-sm btn-outline-dark">Promote/Demote</button>
+
+                                            </form>
+
+                                            <form action="{{url_for('admin.change_password', user_id=user.id)}}" method="post">
+                                            <button class="btn btn-sm btn-outline-warning">Change Password</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                 </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'layout.html'%}
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Lorana</h1>
+
+    {% for product in products.items %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <h3 class="card-title">{{ product.name }}</h3>
+            <h5 class="text-primary">Price: {{ product.price }}</h5>
+            <p class="card-text">{{ product.desc }}</p>
+
+            {% if current_user.is_authenticated%}
+                {% if current_user.is_admin%}
+                    <a href="{{ url_for('products.delete', id = product.id) }}"
+                    class = 'btn btn-danger btn-sm' > Deleted</a>
+                {% endif%}
+            {% endif %}
+            <a href="{{ url_for('users.favorite', product_id=product.id) }}" class="btn btn-sm">
+               {% if product in current_user.favorites %}
+                   ❤️
+               {%else%}
+                   🤍
+               {% endif %}
+            </a>
+
+        </div>
+    </div>
+    {% endfor %}
+
+    {% if products.has_prev %}
+        <a href="{{ url_for('main.home', page=products.prev_num) }}" class="btn btn-secondary">Previous</a>
+    {% endif %}
+
+    {% if products.has_next %}
+        <a href="{{ url_for('main.home', page=products.next_num) }}" class="btn btn-primary">Next</a>
+    {% endif %}
+</div>
+
+{% endblock content%}
