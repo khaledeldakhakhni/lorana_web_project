@@ -1,7 +1,12 @@
 import os
 from dotenv import load_dotenv
 
-load_dotenv('../secret.env')
+# بيجيب مسار الفولدر اللي فيه ملف config.py (اللي هو lorana)
+basedir = os.path.abspath(os.path.dirname(__file__))
+
+# بيطلع خطوة لبره (..) ويدور على secret.env
+load_dotenv(os.path.join(basedir, '../secret.env'))
+
 class Config:
     SECRET_KEY =os.environ.get('SECRET_KEY')
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI')
