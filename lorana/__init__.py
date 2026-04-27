@@ -1,14 +1,11 @@
-import os
-from dotenv import load_dotenv
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_mail import Mail
+from lorana.config import Config
 
-# => جلب المفاتيح اولا <=
-load_dotenv('secret.env')  # => لازم احهز الباسورد والحاجه ( المفاتيح بتاعتى ) قبل ما ابدا البرنامج عشان ( لما استخدمه ف الايميل )
 
 # => تعريف الادوات خام بدون براميتار  <=
 mail = Mail()
@@ -17,19 +14,11 @@ bcrypt= Bcrypt()
 login_manager = LoginManager()
 migrate = Migrate()
 
-def create_app():
+def create_app(config_class=Config):
     app = Flask(__name__)   # => بداية تشغبل البرنامج
     # => الاعدادات <=
-    app.config['SECRET_KEY'] = '123456789'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///lorana.db'
+    app.config.from_object(Config)
     app.config['SQLALCHEMY_ECHO'] = True
-    app.config['MAIL_SERVER']  = 'smtp.gmail.com'
-    app.config['MAIL_PORT']    = 587
-    app.config['MAIL_USE_TLS'] = True
-    app.config['MAIL_USERNAME']=os.environ.get("EMAIL_USERNAME")
-    app.config['MAIL_PASSWORD']=os.environ.get("EMAIL_PASSWORD")
-    app.config['MAIL_DEFAULT_SENDER'] = os.environ.get('EMAIL_USERNAME')
-
     # => ربط الادوات بال app <=
     db.init_app(app)
     bcrypt.init_app(app)

@@ -22,5 +22,7 @@ __pycache__/
 .env
 instance/
 
+secret.env
+
 # ملفات الرفع (لو فيه صور بيرفعها المستخدمين)
 static/uploads/
