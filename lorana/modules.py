@@ -14,7 +14,7 @@ class User(db.Model,UserMixin):
     lName    = db.Column(db.String(20),nullable=False)
     username = db.Column(db.String(20), unique=True,nullable=False)
     email    = db.Column(db.String(100), unique=True,nullable=False)
-    password = db.Column(db.String(150),nullable=False)
+    password = db.Column(db.String(255),nullable=False)
     favorites= db.relationship('Product',secondary=Favorite ,backref='favorite_by')
     is_admin = db.Column(db.Boolean , default = False , nullable = False )
 
@@ -36,5 +36,5 @@ class Product(db.Model):
     id          = db.Column(db.Integer,primary_key = True)
     name        = db.Column(db.String(20) , unique = True , nullable = False)
     price       = db.Column(db.String(20)  , nullable = False)
-    description = db.Column(db.Text(20) , nullable = False)
+    description = db.Column(db.Text , nullable = False)
     image       = db.Column(db.String(20), unique = False , nullable = False , default = 'default_product.jpg')
