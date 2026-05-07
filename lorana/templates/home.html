@@ -20,8 +20,11 @@
                             {% if product in current_user.favorites %}❤️ del favorite{% else %}🤍 add favorite{% endif %}
                         </a>
                         {% if current_user.is_authenticated and current_user.is_admin %}
-                            <a href="{{ url_for('products.delete', id=product.id) }}"
-                               class="btn btn-danger btn-sm rounded-pill">🗑 Delete</a>
+                            <form action="{{ url_for('products.delete', id=product.id) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm(' Are you sure for delete')">
+                                    🗑 Delete
+                                </button>
+                            </form>
                         {% endif %}
                     </div>
                 </div>
