@@ -115,7 +115,7 @@ def reset_password(token):
         return redirect(url_for('users.login'))
     return render_template('reset_password.html',title= 'reset password', form=form)
 
-@users.route("/favorite/<int:product_id>")
+@users.route("/favorite/<int:product_id>",methods=['GET','POST'])
 def favorite(product_id):
     if current_user.is_authenticated :
         favorite_product = Product.query.filter_by(id=product_id).first()
@@ -125,8 +125,11 @@ def favorite(product_id):
             else:
                 current_user.favorites.append(favorite_product)
             db.session.commit()
-        next_page = request.args.get('next')  # next_page => it have thet after word 'next' in url
-        if next_page: return redirect(url_for(next_page))
+        next_page =request.args.get('next')  # next_page => it have thet after word 'next' in url
+        if next_page:
+            if next_page == 'my_favorite':
+                return redirect(url_for('users.my_favorite'))
+            return redirect(url_for(next_page))
         return redirect(url_for('main.home'))
     else:
         flash('LogIn to interact with product','info')
