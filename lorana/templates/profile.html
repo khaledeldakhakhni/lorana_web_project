@@ -1,18 +1,17 @@
 {% extends 'layout.html'%}
 {% block content%}
-    <div class="card-body">
-        <h5 class="card-title">First Name : {{ user.fName }}</h5>
+<div class="container mt-5">
+    <div class="card shadow border-0 rounded-4 p-4" style="max-width: 600px; margin: auto;">
+        <h3 class="text-center mb-4 fw-bold">My Profile</h3>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><strong>First Name:</strong> {{ user.fName }}</li>
+            <li class="list-group-item"><strong>Last Name:</strong> {{ user.lName }}</li>
+            <li class="list-group-item"><strong>Username:</strong> {{ user.username }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+        </ul>
+        <div class="text-center mt-4">
+            <a href="{{ url_for('users.edit_profile') }}" class="btn btn-outline-primary rounded-pill px-4">Edit Profile</a>
+        </div>
     </div>
-    <div class="card-body">
-        <h5 class="card-title">Last Name : {{ user.lName }}</h5>
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">User Name : {{ user.username }}</h5>
-    </div>
-    <div class="card-body">
-        <h5 class="card-title">Email     : {{ user.email }}</h5>
-    </div>
-    <a href="{{ url_for('users.edit_profile') }}"
-                class = 'btn btn-danger btn-sm' > Edit profile</a>
-
+</div>
 {% endblock content%}

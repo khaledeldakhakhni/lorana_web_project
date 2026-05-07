@@ -1,20 +1,21 @@
 {% extends 'layout.html'%}
 {% block content%}
-<div class="container mt-4">
-    <h1 class="text-center mb-4">Favorite</h1>
-    {% for fav in favorites%}
-    <div class="container mt-3">
-        <div class="card-body">
-            <h3 class="card-title">{{ fav.name }}</h3>
-            <h5 class="text-primary">Price: {{ fav.price }}</h5>
-            <p class="card-text">{{ fav.desc }}</p>
-            <a href="{{ url_for('users.favorite', product_id=fav.id, next='my_favorite') }}"> ❤️ </a>
-
-            </a>
+<div class="container mt-5">
+    <h2 class="text-center mb-4 fw-bold">My Favorites</h2>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {% for fav in favorites %}
+        <div class="col">
+            <div class="card h-100 border-0 shadow rounded-4">
+                <div class="card-body">
+                    <h4 class="card-title fw-bold">{{ fav.name }}</h4>
+                    <span class="badge bg-success mb-2">{{ fav.price }}</span>
+                    <p class="card-text text-muted">{{ fav.desc }}</p>
+                    <a href="{{ url_for('users.favorite', product_id=fav.id, next='my_favorite') }}"
+                       class="btn btn-outline-danger btn-sm rounded-pill">❤️ Remove</a>
+                </div>
+            </div>
         </div>
-
+        {% endfor %}
     </div>
-    {% endfor %}
-
 </div>
 {% endblock content%}
